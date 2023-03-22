@@ -1,0 +1,31 @@
+POST http://localhost:5174/user/signup
+Content-Type: application/json
+
+{
+  "firstName": "Jennie",
+  "lastName": "Monday",
+  "email": "jennie.marie.rhodes@gmail.com",
+  "password": "password"
+}
+
+###
+POST http://localhost:5174/user/signup
+Content-Type: application/json
+
+{
+  "firstName": "Rob",
+  "lastName": "Monday",
+  "email": "rob.monday@gmail.com",
+  "password": "abc123"
+}
+
+###
+POST http://localhost:5174/user/signup
+Content-Type: application/json
+
+{
+  "firstName": "Richard",
+  "lastName": "Cowan",
+  "email": "richcowanbhs@gmail.com",
+  "password": "bulldogs"
+}

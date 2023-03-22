@@ -1,0 +1,16 @@
+POST http://localhost:5174/user/login
+Content-Type: application/json
+
+{
+  "email": "jennie.marie.rhodes@gmail.com",
+  "password": "password"
+}
+
+###
+POST http://localhost:5174/user/login
+Content-Type: application/json
+
+{
+  "email": "rob.monday@gmail.com",
+  "password": "abc123"
+}
