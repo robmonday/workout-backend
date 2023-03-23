@@ -33,16 +33,17 @@ enum WORKOUT_TYPE {
 }
 
 model Workout {
-  id        String       @id @default(uuid())
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  
-  type      WORKOUT_TYPE @default(WALK_OUTDOORS)
-  start     DateTime     @default(now())
-  end       DateTime     
-  distance  Decimal?     @default(0)
-  steps     Int?         @default(0)
-  notes     String?
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type     WORKOUT_TYPE @default(WALK_OUTDOORS)
+  start    DateTime     @default(now())
+  end      DateTime     @default(now())
+  distance Decimal?
+  steps    Int?
+  calories Int?
+  notes    String?
 
   ownerId String
   owner   User   @relation(fields: [ownerId], references: [id])
