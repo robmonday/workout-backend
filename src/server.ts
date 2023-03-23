@@ -15,7 +15,6 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // puts query strings into an object
-app.use(tokenExtractor);
 
 // app.get("/", (req, res, next) => {
 //   setTimeout(() => {
@@ -30,7 +29,7 @@ app.get("/hello", (req: Request, res: Response) => {
 
 app.use("/user", userRouter);
 
-app.use("/workout", workoutRouter); // added protect middleware function to validate tokens
+app.use("/workout", tokenExtractor, workoutRouter); // added protect middleware function to validate tokens
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

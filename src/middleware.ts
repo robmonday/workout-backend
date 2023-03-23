@@ -14,7 +14,8 @@ export const tokenExtractor = (
     throw new Error("Unable to verify token.");
   }
 
-  const authorization = req.get("authorization");
+  const authorization = req.get("Authorization");
+  console.log("Authorization header", authorization);
   if (
     process.env.JWT_SECRET &&
     authorization &&

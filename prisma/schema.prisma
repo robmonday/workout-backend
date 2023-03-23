@@ -21,9 +21,14 @@ model User {
 }
 
 enum WORKOUT_TYPE {
-  CARDIO
-  STRENGTH
-  MIND
+  WALK_OUTDOORS
+  WALK_INDOORS
+  RUN_OUTDOORS
+  RUN_INDOORS
+  BICYCLE
+  SWIM
+  WEIGHT_LIFT
+  YOGA
   OTHER
 }
 
@@ -31,7 +36,12 @@ model Workout {
   id        String       @id @default(uuid())
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
-  type      WORKOUT_TYPE @default(CARDIO)
+  
+  type      WORKOUT_TYPE @default(WALK_OUTDOORS)
+  start     DateTime     @default(now())
+  end       DateTime     
+  distance  Decimal?     @default(0)
+  steps     Int?         @default(0)
   notes     String?
 
   ownerId String
