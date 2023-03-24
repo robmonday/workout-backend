@@ -1,0 +1,7 @@
+DELETE http://localhost:5174/workout
+Content-Type: application/json
+
+{
+  "id": "0ecb72a7-589d-4aba-912d-1d944e397507"
+}
+

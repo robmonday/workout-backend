@@ -7,4 +7,16 @@ workoutRouter.get("/", async (req: Request, res: Response) => {
   res.json(workouts);
 });
 
+workoutRouter.post("/", async (req: Request, res: Response) => {
+  const workout = await db.workout.create({
+    data: req.body,
+  });
+  res.json(workout);
+});
+
+workoutRouter.delete("/", async (req: Request, res: Response) => {
+  const workout = await db.workout.delete({ where: { id: req.body.id } });
+  res.json(workout);
+});
+
 export default workoutRouter;

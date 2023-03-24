@@ -1,0 +1,14 @@
+POST http://localhost:5174/workout
+Content-Type: application/json
+
+{
+  "type": "WALK_OUTDOORS",
+  "start": "2022-01-01",
+  "end": "2022-01-01",
+  "distance": "0",
+  "steps": 0,
+  "calories": 0,
+  "notes": "evening walk",
+  "ownerId": "b7b73072-4807-4002-b349-588da3f533c6"
+}
+

@@ -23,10 +23,9 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
     });
     res.json(user);
   } catch (e) {
-    if (e instanceof knownDbError && e.code === "P2002") {
+    if (e instanceof knownDbError && e.code === "P2025") {
       res.status(409).json({
-        serverError: true,
-        message: "Info submitted already exists",
+        message: "Record to delete does not exist.",
       });
     } else if (e instanceof Error) {
       res.status(400).json(e);

@@ -1,0 +1,2 @@
+GET http://localhost:5174/workout
+Content-Type: application/json
