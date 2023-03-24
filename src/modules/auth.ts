@@ -64,7 +64,7 @@ export const protect = (
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(payload);
+    // console.log(payload);
     req.user = payload; // saving extracted user object into request object
     next();
   } catch (e) {

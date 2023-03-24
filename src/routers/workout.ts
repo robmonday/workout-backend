@@ -8,8 +8,14 @@ workoutRouter.get("/", async (req: Request, res: Response) => {
 });
 
 workoutRouter.post("/", async (req: Request, res: Response) => {
+  const user = await db.user.findFirst({});
+  if (!user) {
+    res.json({
+      message: "unable to create workout because unable to identify user",
+    });
+  }
   const workout = await db.workout.create({
-    data: req.body,
+    data: { ...req.body, userId: user?.id },
   });
   res.json(workout);
 });

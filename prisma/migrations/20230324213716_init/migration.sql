@@ -19,18 +19,35 @@ CREATE TABLE "Workout" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "type" "WORKOUT_TYPE" NOT NULL DEFAULT 'WALK_OUTDOORS',
+    "location" TEXT,
     "start" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "end" TIMESTAMP(3) NOT NULL,
-    "distance" DECIMAL(65,30) DEFAULT 0,
-    "steps" INTEGER DEFAULT 0,
+    "end" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "distance" DECIMAL(65,30),
+    "steps" INTEGER,
+    "calories" INTEGER,
     "notes" TEXT,
-    "ownerId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
 
     CONSTRAINT "Workout_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Badge" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "type" TEXT,
+    "notes" TEXT,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "Badge_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "Workout" ADD CONSTRAINT "Workout_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Workout" ADD CONSTRAINT "Workout_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Badge" ADD CONSTRAINT "Badge_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

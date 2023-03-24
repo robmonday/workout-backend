@@ -38,7 +38,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   } else if (err.type === "input") {
     res.status(400).json({ message: "invalid input" });
   } else {
-    res.status(500).json({ message: "oops, thats on us" });
+    res.status(500).json({ message: err.message });
   }
 });
 

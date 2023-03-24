@@ -15,7 +15,7 @@ export const tokenExtractor = (
   }
 
   const authorization = req.get("Authorization");
-  console.log("Authorization header", authorization);
+  // console.log("Authorization header", authorization);
   if (
     process.env.JWT_SECRET &&
     authorization &&

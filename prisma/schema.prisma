@@ -18,6 +18,7 @@ model User {
   firstName String
   lastName  String
   workouts  Workout[]
+  Badge     Badge[]
 }
 
 enum WORKOUT_TYPE {
@@ -38,6 +39,7 @@ model Workout {
   updatedAt DateTime @updatedAt
 
   type     WORKOUT_TYPE @default(WALK_OUTDOORS)
+  location String?
   start    DateTime     @default(now())
   end      DateTime     @default(now())
   distance Decimal?
@@ -45,6 +47,18 @@ model Workout {
   calories Int?
   notes    String?
 
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Badge {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type  String?
+  notes String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
