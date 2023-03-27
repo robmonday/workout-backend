@@ -2,11 +2,11 @@ POST http://localhost:5174/workout
 Content-Type: application/json
 
 {
-  "type": "WALK_OUTDOORS",
-  "location": "Knoxville",
-  "distance": "0",
-  "steps": 0,
-  "calories": 0,
+  "workoutTypeId": "c0165cc8-a981-4166-8ce8-26bc97e84667",
+  "location": "Knoxville, TN",
+  "distance": "3.2",
+  "steps": 1000,
+  "calories": 200,
   "notes": "evening walk"
 }
 

@@ -21,16 +21,11 @@ model User {
   Badge     Badge[]
 }
 
-enum WORKOUT_TYPE {
-  WALK_OUTDOORS
-  WALK_INDOORS
-  RUN_OUTDOORS
-  RUN_INDOORS
-  BICYCLE
-  SWIM
-  WEIGHT_LIFT
-  YOGA
-  OTHER
+model WorkoutType {
+  id        String    @id @default(uuid())
+  name      String
+  sortOrder Int       @default(100)
+  workouts  Workout[]
 }
 
 model Workout {
@@ -38,10 +33,9 @@ model Workout {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  type     WORKOUT_TYPE @default(WALK_OUTDOORS)
   location String?
-  start    DateTime     @default(now())
-  end      DateTime     @default(now())
+  start    DateTime @default(now())
+  end      DateTime @default(now())
   distance Decimal?
   steps    Int?
   calories Int?
@@ -49,6 +43,9 @@ model Workout {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  workoutTypeId String
+  workoutType   WorkoutType @relation(fields: [workoutTypeId], references: [id])
 }
 
 model Badge {
