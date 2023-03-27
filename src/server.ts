@@ -8,6 +8,7 @@ import { protect } from "./modules/auth";
 import router from "./routers/router";
 import userRouter from "./routers/user";
 import workoutRouter from "./routers/workout";
+import badgeRouter from "./routers/badge";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/hello", (req: Request, res: Response) => {
 app.use("/user", userRouter);
 
 app.use("/workout", tokenExtractor, workoutRouter); // added protect middleware function to validate tokens
+app.use("/badge", tokenExtractor, badgeRouter); // added protect middleware function to validate tokens
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

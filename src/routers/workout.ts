@@ -1,4 +1,4 @@
-import app, { Request, Response, NextFunction } from "express";
+import app, { Request, Response } from "express";
 import db from "../db";
 const workoutRouter = app.Router();
 
