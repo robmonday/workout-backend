@@ -1,5 +1,5 @@
 import app, { Request, Response } from "express";
-import db from "../db";
+import db, { knownDbError } from "../db";
 const workoutRouter = app.Router();
 
 workoutRouter.get("/", async (req: Request, res: Response) => {
@@ -32,6 +32,36 @@ workoutRouter.post("/", async (req: Request, res: Response) => {
     },
   });
   res.json(workout);
+});
+
+workoutRouter.put("/", async (req: Request, res: Response) => {
+  try {
+    const user = await db.user.findFirst({});
+    if (!user) {
+      res.json({
+        message: "unable to update workout because unable to identify user",
+      });
+    }
+    const workout = await db.workout.update({
+      where: {
+        id: req.body.id,
+      },
+      data: { ...req.body, userId: user?.id },
+      include: {
+        workoutType: { select: { name: true } },
+      },
+    });
+    res.json(workout);
+  } catch (e) {
+    console.error(e);
+    if (e instanceof knownDbError && e.code === "P2003") {
+      res.status(409).json({
+        message: "Foreign key error",
+      });
+    } else if (e instanceof Error) {
+      res.status(400).json(e);
+    }
+  }
 });
 
 workoutRouter.delete("/", async (req: Request, res: Response) => {
