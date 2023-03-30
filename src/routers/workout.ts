@@ -15,12 +15,20 @@ const asyncErrorHandler = (e: any, res: Response) => {
 
 workoutRouter.get("/", async (req: Request, res: Response) => {
   try {
-    const workouts = await db.workout.findMany({
-      include: {
-        workoutType: { select: { name: true } },
-      },
-    });
-    res.json(workouts);
+    if (req.query) {
+      const workouts = await db.workout.groupBy({
+        by: ["location"],
+        _count: true,
+      });
+      res.json(workouts);
+    } else {
+      const workouts = await db.workout.findMany({
+        include: {
+          workoutType: { select: { name: true } },
+        },
+      });
+      res.json(workouts);
+    }
   } catch (e) {
     asyncErrorHandler(e, res);
   }

@@ -28,10 +28,10 @@ app.get("/hello", (req: Request, res: Response) => {
   res.json({ message: "hello" });
 });
 
-app.use("/user", userRouter);
+app.use("/api/user", userRouter);
 
-app.use("/workout", tokenExtractor, workoutRouter); // added protect middleware function to validate tokens
-app.use("/badge", tokenExtractor, badgeRouter); // added protect middleware function to validate tokens
+app.use("/api/workout", tokenExtractor, workoutRouter); // added protect middleware function to validate tokens
+app.use("/api/badge", tokenExtractor, badgeRouter); // added protect middleware function to validate tokens
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

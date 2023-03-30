@@ -11,6 +11,6 @@ POST http://localhost:5174/user/login
 Content-Type: application/json
 
 {
-  "email": "rob.monday@gmail.com",
-  "password": "abc123"
+  "email": "rmonday@clemson.edu",
+  "password": "High17!"
 }
