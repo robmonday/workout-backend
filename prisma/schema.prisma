@@ -36,9 +36,9 @@ model Workout {
   location String?
   start    DateTime @default(now())
   end      DateTime @default(now())
-  distance Decimal?
-  steps    Int?
-  calories Int?
+  distance Decimal? @default(0)
+  steps    Int?     @default(0)
+  calories Int?     @default(0)
   notes    String?
 
   userId String

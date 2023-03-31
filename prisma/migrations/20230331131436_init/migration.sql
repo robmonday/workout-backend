@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "WORKOUT_TYPE" AS ENUM ('WALK_OUTDOORS', 'WALK_INDOORS', 'RUN_OUTDOORS', 'RUN_INDOORS', 'BICYCLE', 'SWIM', 'WEIGHT_LIFT', 'YOGA', 'OTHER');
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -14,11 +11,19 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "WorkoutType" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "sortOrder" INTEGER NOT NULL DEFAULT 100,
+
+    CONSTRAINT "WorkoutType_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Workout" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "type" "WORKOUT_TYPE" NOT NULL DEFAULT 'WALK_OUTDOORS',
     "location" TEXT,
     "start" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "end" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -27,6 +32,7 @@ CREATE TABLE "Workout" (
     "calories" INTEGER,
     "notes" TEXT,
     "userId" TEXT NOT NULL,
+    "workoutTypeId" TEXT NOT NULL,
 
     CONSTRAINT "Workout_pkey" PRIMARY KEY ("id")
 );
@@ -48,6 +54,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "Workout" ADD CONSTRAINT "Workout_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Workout" ADD CONSTRAINT "Workout_workoutTypeId_fkey" FOREIGN KEY ("workoutTypeId") REFERENCES "WorkoutType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Badge" ADD CONSTRAINT "Badge_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
