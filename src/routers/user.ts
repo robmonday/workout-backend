@@ -6,9 +6,21 @@ import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 import { emailConfirm } from "../emails";
 
 userRouter.get("/", async (req, res) => {
-  // const users = await db.user.findMany({});
-  // res.status(200).json(users);
-  res.status(401).json({ message: "nope" });
+  const users = await db.user.findMany({});
+  res.status(200).json(users);
+  // res.status(401).json({ message: "nope" });
+});
+
+userRouter.get("/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const user = await db.user.findUniqueOrThrow({ where: { id } });
+  res.json({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    emailConfirmed: user.emailConfirmed,
+  });
 });
 
 userRouter.post("/signup", async (req: Request, res: Response) => {
@@ -62,11 +74,14 @@ userRouter.post("/login", async (req: Request, res: Response) => {
   // console.log("token", token);
 
   res.status(200).json({
+    userObj: {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailConfirmed: user.emailConfirmed,
+    },
     token,
-    id: user.id,
-    email: user.email,
-    firstName: user.firstName,
-    lastName: user.lastName,
   });
 });
 
