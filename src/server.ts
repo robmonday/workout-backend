@@ -30,8 +30,8 @@ app.get("/hello", (req: Request, res: Response) => {
 
 app.use("/api/user", userRouter);
 
-app.use("/api/workout", tokenExtractor, workoutRouter); // added protect middleware function to validate tokens
-app.use("/api/badge", tokenExtractor, badgeRouter); // added protect middleware function to validate tokens
+app.use("/api/workout", workoutRouter); // need to add tokenExtractor and protect to validate tokens
+app.use("/api/badge", badgeRouter); // need to add tokenExtractor and protect to validate tokens
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

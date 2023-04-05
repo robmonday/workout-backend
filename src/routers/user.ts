@@ -3,6 +3,7 @@ const userRouter = app.Router();
 
 import db, { knownDbError } from "../db";
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
+import { emailConfirm } from "../emails";
 
 userRouter.get("/", async (req, res) => {
   // const users = await db.user.findMany({});
@@ -21,6 +22,8 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
         password: hashedPassword,
       },
     });
+    const emailConfirmToken = createJWT(user);
+    emailConfirm(user.email, user, emailConfirmToken);
     res.json(user);
   } catch (e) {
     if (e instanceof knownDbError && e.code === "P2025") {
@@ -35,6 +38,7 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
 
 userRouter.post("/login", async (req: Request, res: Response) => {
   const user = await db.user.findUnique({ where: { email: req.body.email } });
+  // console.log("user", user);
 
   if (!user) {
     res.status(401).json({
@@ -55,8 +59,15 @@ userRouter.post("/login", async (req: Request, res: Response) => {
   }
 
   const token = createJWT(user);
-  console.log(token);
-  res.status(200).json({ token });
+  // console.log("token", token);
+
+  res.status(200).json({
+    token,
+    id: user.id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  });
 });
 
 export default userRouter;

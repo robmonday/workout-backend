@@ -37,7 +37,7 @@ workoutRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-workoutRouter.get("/timeseries", async (req: Request, res, Response) => {
+workoutRouter.get("/timeseries", async (req: Request, res: Response) => {
   try {
     const result1 = await db.$queryRaw(
       Prisma.sql`with table1 as (select generate_series( date_trunc('day', now()) - '29 days'::interval, date_trunc('day', now()), '1 day'::interval )::timestamp as day), table2 as (select date_trunc('day', start) as day_w_null, * from "Workout"), table3 as (select * from table1 left join table2 on table1.day = table2.day_w_null) select *, extract (epoch from ( coalesce("end", now()) - coalesce("start" , now()) )) as seconds from table3 order by day;`
@@ -47,6 +47,27 @@ workoutRouter.get("/timeseries", async (req: Request, res, Response) => {
   } catch (e) {
     asyncErrorHandler(e, res);
   }
+});
+
+workoutRouter.get("/averages", async (req: Request, res: Response) => {
+  const workAvgs = await db.workout.groupBy({
+    by: ["workoutTypeId"],
+    _avg: { steps: true, calories: true, distance: true },
+  });
+  const workTypes = await db.workoutType.findMany({});
+
+  const outputObj = workAvgs.map((a) => {
+    const workType = workTypes.find((t) => t.id === a.workoutTypeId);
+
+    return {
+      workoutName: workType?.name,
+      steps: a._avg.steps,
+      calories: a._avg.calories,
+      distance: a._avg.distance,
+    };
+  });
+
+  res.json(outputObj);
 });
 
 workoutRouter.get("/type", async (req: Request, res: Response) => {
