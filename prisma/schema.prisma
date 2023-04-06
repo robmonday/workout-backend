@@ -11,22 +11,34 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  createdAt      DateTime  @default(now())
-  email          String    @unique
-  emailConfirmed Boolean   @default(false)
+  id             String          @id @default(uuid())
+  createdAt      DateTime        @default(now())
+  email          String          @unique
+  emailConfirmed Boolean         @default(false)
   password       String
   firstName      String
   lastName       String
-  workouts       Workout[]
-  Badge          Badge[]
+  Workouts       Workout[]
+  Badges         Badge[]
+  Notifications  Notification[]
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  message   String
+  unread    Boolean  @default(true)
+  open      Boolean  @default(true)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model WorkoutType {
   id        String    @id @default(uuid())
   name      String
   sortOrder Int       @default(100)
-  workouts  Workout[]
+  Workouts  Workout[]
 }
 
 model Workout {

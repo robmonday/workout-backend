@@ -1,9 +1,10 @@
-import app, { Request, Response, NextFunction } from "express";
+import app, { Request, Response } from "express";
 const userRouter = app.Router();
 
 import db, { knownDbError } from "../db";
-import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 import { emailConfirm } from "../emails";
+
+import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 
 userRouter.get("/", async (req, res) => {
   const users = await db.user.findMany({});
@@ -84,5 +85,10 @@ userRouter.post("/login", async (req: Request, res: Response) => {
     token,
   });
 });
+
+// userRouter.post("/emailconfirm", async (req: Request, res: Response) => {
+//   const { token } = req.query;
+
+// });
 
 export default userRouter;

@@ -5,10 +5,10 @@ import cors from "cors";
 import { tokenExtractor } from "./middleware";
 import { protect } from "./modules/auth";
 
-import router from "./routers/router";
 import userRouter from "./routers/user";
 import workoutRouter from "./routers/workout";
 import badgeRouter from "./routers/badge";
+import notificationRouter from "./routers/notification";
 
 const app = express();
 
@@ -29,9 +29,9 @@ app.get("/hello", (req: Request, res: Response) => {
 });
 
 app.use("/api/user", userRouter);
-
 app.use("/api/workout", workoutRouter); // need to add tokenExtractor and protect to validate tokens
 app.use("/api/badge", badgeRouter); // need to add tokenExtractor and protect to validate tokens
+app.use("/api/notification", notificationRouter);
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
