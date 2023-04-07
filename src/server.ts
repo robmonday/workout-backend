@@ -2,8 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { tokenExtractor } from "./middleware";
-import { protect } from "./modules/auth";
+import { tokenExtractor, protect } from "./middleware";
 
 import userRouter from "./routers/user";
 import workoutRouter from "./routers/workout";
@@ -23,16 +22,18 @@ app.use(bodyParser.urlencoded({ extended: true })); // puts query strings into a
 //   }, 2000);
 // });
 
+app.use(tokenExtractor);
+
 app.get("/hello", (req: Request, res: Response) => {
   res.status(200);
   res.json({ message: "hello" });
 });
 
-app.use("/api/user", userRouter);
+app.use("/api/user", userRouter); // protect is applied at router level
 
-app.use("/api/workout", workoutRouter); // need to add tokenExtractor and protect to validate tokens
-app.use("/api/badge", badgeRouter); // need to add tokenExtractor and protect to validate tokens
-app.use("/api/notification", notificationRouter);
+app.use("/api/workout", protect, workoutRouter);
+app.use("/api/badge", protect, badgeRouter);
+app.use("/api/notification", protect, notificationRouter);
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

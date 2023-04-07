@@ -1,1 +1,6 @@
-// types used in more than one file would go here
+import { Request } from "express";
+
+export type RequestPlus = Request & {
+  token?: string;
+  user?: any;
+};

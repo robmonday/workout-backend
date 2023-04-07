@@ -13,10 +13,10 @@ POST http://localhost:5174/api/user/signup
 Content-Type: application/json
 
 {
-  "firstName": "Rob",
+  "firstName": "Robert",
   "lastName": "Monday",
   "email": "rob.monday@gmail.com",
-  "password": "abc123"
+  "password": "Abc123!"
 }
 
 ###

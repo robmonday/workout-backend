@@ -1,10 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export type RequestPlus = Request & {
-  token?: string;
-  user?: any;
-};
+import { RequestPlus } from "./types";
 
 export const tokenExtractor = (
   req: RequestPlus,
@@ -12,14 +9,13 @@ export const tokenExtractor = (
   next: NextFunction
 ) => {
   const authorization = req.get("Authorization");
+  console.log("authorization", req.get("Authorization"));
   if (!authorization) {
     console.log("No token provided");
     next();
-    // } else if (authorization.substring(1, 8).toLowerCase() !== "bearer ") {
-    //   throw new Error("Token provided, but its not a valid bearer token");
   } else {
-    req.token = authorization.substring(8);
-    console.log("req.token:", req.token);
+    req.token = authorization.split(" ")[1];
+    console.log("req.token from tokenExtractor:", req.token);
     next();
   }
 };
@@ -35,10 +31,15 @@ export const protect = async (
     } else if (!req.token) {
       throw new Error("No token provided to protect()");
     }
+    console.log("req.token from protect", req.token);
+    console.log("process.env.JWT_SECRET", process.env.JWT_SECRET);
     req.user = jwt.verify(req.token, process.env.JWT_SECRET);
     console.log("req.user:", req.user);
     next();
   } catch (e) {
-    if (e instanceof Error) res.status(401).json(e.message);
+    console.error(e);
+    res.status(401).json({ message: "token not valid" });
+    return;
   }
 };
+export { RequestPlus };

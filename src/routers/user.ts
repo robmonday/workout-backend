@@ -6,28 +6,23 @@ import { tokenExtractor, protect } from "../middleware";
 
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 
-userRouter.get("/", tokenExtractor, protect, async (req, res) => {
+userRouter.get("/", protect, async (req, res) => {
   const users = await db.user.findMany({});
   res.status(200).json(users);
   // res.status(401).json({ message: "nope" });
 });
 
-userRouter.get(
-  "/:id",
-  tokenExtractor,
-  protect,
-  async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const user = await db.user.findUniqueOrThrow({ where: { id } });
-    res.json({
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      emailConfirmed: user.emailConfirmed,
-    });
-  }
-);
+userRouter.get("/:id", protect, async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const user = await db.user.findUniqueOrThrow({ where: { id } });
+  res.json({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    emailConfirmed: user.emailConfirmed,
+  });
+});
 
 // Do not protect this route.  Users who are signing up are not authenticated.
 userRouter.post("/signup", async (req: Request, res: Response) => {

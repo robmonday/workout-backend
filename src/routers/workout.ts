@@ -3,6 +3,8 @@ import app, { Request, Response } from "express";
 import db, { knownDbError } from "../db";
 const workoutRouter = app.Router();
 
+import { RequestPlus } from "../types";
+
 const asyncErrorHandler = (e: any, res: Response) => {
   console.error(e);
   if (e instanceof knownDbError && e.code === "P2003") {
@@ -14,17 +16,20 @@ const asyncErrorHandler = (e: any, res: Response) => {
   }
 };
 
-workoutRouter.get("/", async (req: Request, res: Response) => {
+workoutRouter.get("/", async (req: RequestPlus, res: Response) => {
+  const userId = req.user.id;
   try {
     if (req.query.hasOwnProperty("groupBy")) {
       const groupedworkouts = await db.workout.groupBy({
         by: [req.query.groupBy as any],
+        where: { userId },
         _count: true,
         orderBy: { _count: { location: "desc" } },
       });
       res.json(groupedworkouts);
     } else {
       const workouts = await db.workout.findMany({
+        where: { userId },
         include: {
           workoutType: { select: { name: true } },
         },
@@ -37,7 +42,7 @@ workoutRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-workoutRouter.get("/timeseries", async (req: Request, res: Response) => {
+workoutRouter.get("/timeseries", async (req: RequestPlus, res: Response) => {
   try {
     const result1 = await db.$queryRaw(
       Prisma.sql`with table1 as (select generate_series( date_trunc('day', now()) - '29 days'::interval, date_trunc('day', now()), '1 day'::interval )::timestamp as day), table2 as (select date_trunc('day', start) as day_w_null, * from "Workout"), table3 as (select * from table1 left join table2 on table1.day = table2.day_w_null) select *, extract (epoch from ( coalesce("end", now()) - coalesce("start" , now()) )) as seconds from table3 order by day;`
@@ -49,9 +54,12 @@ workoutRouter.get("/timeseries", async (req: Request, res: Response) => {
   }
 });
 
-workoutRouter.get("/averages", async (req: Request, res: Response) => {
+workoutRouter.get("/averages", async (req: RequestPlus, res: Response) => {
+  const userId = req.user.id;
+
   const workAvgs = await db.workout.groupBy({
     by: ["workoutTypeId"],
+    where: { userId },
     _avg: { steps: true, calories: true, distance: true },
   });
   const workTypes = await db.workoutType.findMany({});
@@ -70,7 +78,7 @@ workoutRouter.get("/averages", async (req: Request, res: Response) => {
   res.json(outputObj);
 });
 
-workoutRouter.get("/type", async (req: Request, res: Response) => {
+workoutRouter.get("/type", async (req: RequestPlus, res: Response) => {
   try {
     const workouts = await db.workoutType.findMany({
       select: { id: true, name: true },
@@ -81,16 +89,16 @@ workoutRouter.get("/type", async (req: Request, res: Response) => {
   }
 });
 
-workoutRouter.post("/", async (req: Request, res: Response) => {
+workoutRouter.post("/", async (req: RequestPlus, res: Response) => {
   try {
-    const user = await db.user.findFirst({});
-    if (!user) {
+    const userId = req.user.id;
+    if (!userId) {
       res.json({
         message: "unable to create workout because unable to identify user",
       });
     }
     const workout = await db.workout.create({
-      data: { ...req.body, userId: user?.id },
+      data: { ...req.body, userId },
       include: {
         workoutType: { select: { name: true } },
       },
@@ -101,10 +109,10 @@ workoutRouter.post("/", async (req: Request, res: Response) => {
   }
 });
 
-workoutRouter.put("/", async (req: Request, res: Response) => {
+workoutRouter.put("/", async (req: RequestPlus, res: Response) => {
   try {
-    const user = await db.user.findFirst({});
-    if (!user) {
+    const userId = req.user.id;
+    if (!userId) {
       res.json({
         message: "unable to update workout because unable to identify user",
       });
@@ -113,7 +121,7 @@ workoutRouter.put("/", async (req: Request, res: Response) => {
       where: {
         id: req.body.id,
       },
-      data: { ...req.body, userId: user?.id },
+      data: { ...req.body, userId },
       include: {
         workoutType: { select: { name: true } },
       },
@@ -124,7 +132,7 @@ workoutRouter.put("/", async (req: Request, res: Response) => {
   }
 });
 
-workoutRouter.delete("/", async (req: Request, res: Response) => {
+workoutRouter.delete("/", async (req: RequestPlus, res: Response) => {
   try {
     const workout = await db.workout.delete({
       where: { id: req.body.id },

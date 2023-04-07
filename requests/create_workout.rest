@@ -1,12 +1,13 @@
 POST http://localhost:5174/api/workout
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzNDM1ZjUzLWEyMmUtNDFiMC1iZmE3LWE2ZDIxYmFjODRmNyIsImVtYWlsIjoicm9iLm1vbmRheUBvdXRsb29rLmNvbSIsImlhdCI6MTY4MDg5MDk2MH0.3xOzX8Fmd1SXQz8XimV-qrvRq-rECPCD_6stblxQxsw
 
 {
-  "workoutTypeId": "c0165cc8-a981-4166-8ce8-26bc97e84667",
   "location": "Knoxville, TN",
   "distance": "3.2",
   "steps": 1000,
   "calories": 200,
-  "notes": "evening walk"
+  "notes": "evening walk",
+  "workoutTypeId": "be5db822-4697-4052-b4d4-eaa23a2b918c"
 }
 

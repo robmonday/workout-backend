@@ -1,6 +1,6 @@
 POST http://localhost:5174/api/notification
 Content-Type: application/json
-Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZhMzMwZDFkLTA2ZDgtNDQwNS1iODA1LTBmNzRjOTMwNDI5ZiIsImVtYWlsIjoicmljaGNvd2FuQGdtYWlsLmNvbSIsImlhdCI6MTY4MDgxOTE1OX0.VEOjQHFogYzty7sU2mbFNeeJEfstwTRjZJXwRwrmezE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzNDM1ZjUzLWEyMmUtNDFiMC1iZmE3LWE2ZDIxYmFjODRmNyIsImVtYWlsIjoicm9iLm1vbmRheUBvdXRsb29rLmNvbSIsImlhdCI6MTY4MDg5MDk2MH0.3xOzX8Fmd1SXQz8XimV-qrvRq-rECPCD_6stblxQxsw
 
 {
   "message": "here is a message for the test notification",
