@@ -1,2 +1,2 @@
-GET http://localhost:5174/user
+GET http://localhost:5174/api/user
 Content-Type: application/json

@@ -1,4 +1,4 @@
-POST http://localhost:5174/workout
+POST http://localhost:5174/api/workout
 Content-Type: application/json
 
 {

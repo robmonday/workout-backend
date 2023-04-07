@@ -29,6 +29,7 @@ app.get("/hello", (req: Request, res: Response) => {
 });
 
 app.use("/api/user", userRouter);
+
 app.use("/api/workout", workoutRouter); // need to add tokenExtractor and protect to validate tokens
 app.use("/api/badge", badgeRouter); // need to add tokenExtractor and protect to validate tokens
 app.use("/api/notification", notificationRouter);

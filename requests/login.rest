@@ -1,16 +1,9 @@
-POST http://localhost:5174/user/login
+POST http://localhost:5174/api/user/login
 Content-Type: application/json
 
 {
-  "email": "jennie.marie.rhodes@gmail.com",
-  "password": "password"
+  "email": "rob.monday@outlook.com",
+  "password": "Abc123!"
 }
 
 ###
-POST http://localhost:5174/user/login
-Content-Type: application/json
-
-{
-  "email": "rmonday@clemson.edu",
-  "password": "High17!"
-}

@@ -1,2 +1,2 @@
-GET http://localhost:5174/workout
+GET http://localhost:5174/api/workout
 Content-Type: application/json

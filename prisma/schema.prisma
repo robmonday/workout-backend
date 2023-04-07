@@ -11,10 +11,10 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  createdAt      DateTime        @default(now())
-  email          String          @unique
-  emailConfirmed Boolean         @default(false)
+  id             String         @id @default(uuid())
+  createdAt      DateTime       @default(now())
+  email          String         @unique
+  emailConfirmed Boolean        @default(false)
   password       String
   firstName      String
   lastName       String
@@ -24,11 +24,13 @@ model User {
 }
 
 model Notification {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  message   String
-  unread    Boolean  @default(true)
-  open      Boolean  @default(true)
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  message     String
+  unread      Boolean  @default(true)
+  open        Boolean  @default(true)
+  dismissable Boolean  @default(true)
+  buttonUrl   String?
 
   userId String
   user   User   @relation(fields: [userId], references: [id])

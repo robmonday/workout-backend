@@ -2,28 +2,34 @@ import app, { Request, Response } from "express";
 const userRouter = app.Router();
 
 import db, { knownDbError } from "../db";
-import { emailConfirm } from "../emails";
+import { tokenExtractor, protect } from "../middleware";
 
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 
-userRouter.get("/", async (req, res) => {
+userRouter.get("/", tokenExtractor, protect, async (req, res) => {
   const users = await db.user.findMany({});
   res.status(200).json(users);
   // res.status(401).json({ message: "nope" });
 });
 
-userRouter.get("/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const user = await db.user.findUniqueOrThrow({ where: { id } });
-  res.json({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    emailConfirmed: user.emailConfirmed,
-  });
-});
+userRouter.get(
+  "/:id",
+  tokenExtractor,
+  protect,
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const user = await db.user.findUniqueOrThrow({ where: { id } });
+    res.json({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      emailConfirmed: user.emailConfirmed,
+    });
+  }
+);
 
+// Do not protect this route.  Users who are signing up are not authenticated.
 userRouter.post("/signup", async (req: Request, res: Response) => {
   try {
     const hashedPassword = await hashPassword(req.body.password);
@@ -35,8 +41,17 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
         password: hashedPassword,
       },
     });
-    const emailConfirmToken = createJWT(user);
-    emailConfirm(user.email, user, emailConfirmToken);
+    console.log("user created", user);
+    const notify = await db.notification.create({
+      data: {
+        message: "Please confirm your email address",
+        buttonUrl: "/emailconfirm",
+        userId: user.id,
+        dismissable: false,
+      },
+    });
+    // const emailConfirmToken = createJWT(user);
+    // emailConfirm(user.email, user, emailConfirmToken); // send confirmation email
     res.json(user);
   } catch (e) {
     if (e instanceof knownDbError && e.code === "P2025") {
@@ -49,6 +64,7 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
   }
 });
 
+// Do not protect this route.  Users who are logging in are not authenticated.
 userRouter.post("/login", async (req: Request, res: Response) => {
   const user = await db.user.findUnique({ where: { email: req.body.email } });
   // console.log("user", user);

@@ -1,0 +1,9 @@
+POST http://localhost:5174/api/notification
+Content-Type: application/json
+Authorization: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZhMzMwZDFkLTA2ZDgtNDQwNS1iODA1LTBmNzRjOTMwNDI5ZiIsImVtYWlsIjoicmljaGNvd2FuQGdtYWlsLmNvbSIsImlhdCI6MTY4MDgxOTE1OX0.VEOjQHFogYzty7sU2mbFNeeJEfstwTRjZJXwRwrmezE
+
+{
+  "message": "here is a message for the test notification",
+  "dismissable": false,
+  "buttonUrl": "/emailconfirm"
+}
