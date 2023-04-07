@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import nodemailer from "nodemailer";
 
 let transporter = nodemailer.createTransport({
@@ -13,12 +12,8 @@ let transporter = nodemailer.createTransport({
 
 let from = process.env.EMAIL_FROM_ADDR;
 
-export async function emailConfirm(
-  to: string,
-  user: User,
-  token: string = "none-provided"
-) {
-  const subject = `Welcome to the Workout App, ${user.firstName}!`;
+export async function emailConfirm(to: string, data: any) {
+  const subject = `Welcome to the Workout App, ${data.firstName}!`;
 
   const html = `
   <h1>Welcome to the Workout App!</h1>
@@ -26,12 +21,14 @@ export async function emailConfirm(
   <p>Congratulations on taking your first step toward better fitness!  You are on a journey, and the Workout App is here to help you along the way.</p>
 
   <p>Please take a moment to confirm your email: </p>
-  <a href="http://localhost:5173/user/emailconfirm/?token=${token}">Confirm Email as ${user.email}</a>
+  <a href="http://localhost:5173/user/emailconfirm/?token=${data.token}">Confirm Email as ${data.email}</a>
   `;
 
   try {
     let info = await transporter.sendMail({ from, to, subject, html });
-    console.log("Message sent: %s", info.messageId);
+    const successMessage = `Message sent: ${info.messageId}`
+    console.log(successMessage);
+    return successMessage;
   } catch (e) {
     console.error(e);
   }

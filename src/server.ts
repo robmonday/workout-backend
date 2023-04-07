@@ -8,6 +8,7 @@ import userRouter from "./routers/user";
 import workoutRouter from "./routers/workout";
 import badgeRouter from "./routers/badge";
 import notificationRouter from "./routers/notification";
+import emailRouter from "./routers/email";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/user", userRouter); // protect is applied at router level
 app.use("/api/workout", protect, workoutRouter);
 app.use("/api/badge", protect, badgeRouter);
 app.use("/api/notification", protect, notificationRouter);
+app.use("/api/email", protect, emailRouter);
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
