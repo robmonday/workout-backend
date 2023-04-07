@@ -5,14 +5,16 @@ import db, { knownDbError } from "../db";
 
 import { RequestPlus, tokenExtractor, protect } from "../middleware";
 
-notificationRouter.get("/open", async (req: Request, res: Response) => {
+notificationRouter.get("/open", async (req: RequestPlus, res: Response) => {
+  const userId = req.user.id;
+
   const openNotifications = await db.notification.findMany({
-    where: { open: true },
+    where: { open: true, userId },
   });
   res.json(openNotifications);
 });
 
-notificationRouter.put("/open", async (req: Request, res: Response) => {
+notificationRouter.put("/open", async (req: RequestPlus, res: Response) => {
   const { id } = req.body;
   const updatedNotification = await db.notification.update({
     where: { id },
@@ -21,20 +23,16 @@ notificationRouter.put("/open", async (req: Request, res: Response) => {
   res.json(updatedNotification);
 });
 
-notificationRouter.post(
-  "/",
-  tokenExtractor,
-  protect,
-  async (req: RequestPlus, res: Response) => {
-    try {
-      const newNotification = await db.notification.create({
-        data: { ...req.body, userId: req.user.id },
-      });
-      res.json(newNotification);
-    } catch (e) {
-      res.status(400).json(e);
-    }
+notificationRouter.post("/", async (req: RequestPlus, res: Response) => {
+  const userId = req.user.id;
+  try {
+    const newNotification = await db.notification.create({
+      data: { ...req.body, userId },
+    });
+    res.json(newNotification);
+  } catch (e) {
+    res.status(400).json(e);
   }
-);
+});
 
 export default notificationRouter;

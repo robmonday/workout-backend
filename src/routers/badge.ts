@@ -1,15 +1,17 @@
 import app, { Request, Response } from "express";
-import db from "../db";
 const badgeRouter = app.Router();
 
-badgeRouter.get("/", async (req: Request, res: Response) => {
-  const user = await db.user.findFirst({});
-  if (!user) {
+import { RequestPlus } from "../types";
+import db from "../db";
+
+badgeRouter.get("/", async (req: RequestPlus, res: Response) => {
+  const userId = req.user.id;
+  if (!userId) {
     res.json({
       message: "unable to get badges because unable to identify user",
     });
   } else {
-    const badges = await db.badge.findMany({ where: { userId: user.id } });
+    const badges = await db.badge.findMany({ where: { userId } });
     res.json(badges);
   }
 });
