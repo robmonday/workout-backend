@@ -16,4 +16,12 @@ badgeRouter.get("/", async (req: RequestPlus, res: Response) => {
   }
 });
 
+badgeRouter.post("/", async (req: RequestPlus, res: Response) => {
+  const userId = req.user.id;
+  const newBadge = await db.badge.create({
+    data: { ...req.body, userId },
+  });
+  res.json(newBadge);
+});
+
 export default badgeRouter;

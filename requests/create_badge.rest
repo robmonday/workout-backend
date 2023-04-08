@@ -1,9 +1,8 @@
-POST http://localhost:5174/api/notification
+POST http://localhost:5174/api/badge
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzNDM1ZjUzLWEyMmUtNDFiMC1iZmE3LWE2ZDIxYmFjODRmNyIsImVtYWlsIjoicm9iLm1vbmRheUBvdXRsb29rLmNvbSIsImlhdCI6MTY4MDg5MDk2MH0.3xOzX8Fmd1SXQz8XimV-qrvRq-rECPCD_6stblxQxsw
 
 {
-  "message": "here is a message for the test notification",
-  "dismissable": true,
-  "buttonUrl": ""
+  "type": "New Kid On The Block",
+  "notes": "Generated when user created an account"
 }

@@ -37,16 +37,34 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
       },
     });
     console.log("user created", user);
-    const notify = await db.notification.create({
+    const emailConfirmNotify = await db.notification.create({
       data: {
-        message: "Please confirm your email address",
+        message: "Please take a moment to confirm your email address.",
         buttonUrl: "/emailconfirm",
         userId: user.id,
         dismissable: false,
       },
     });
-    // const emailConfirmToken = createJWT(user);
-    // emailConfirm(user.email, user, emailConfirmToken); // send confirmation email
+    const welcomeNotify = await db.notification.create({
+      data: {
+        message: "Welcome to the Workout App!  We are glad you are here.",
+        userId: user.id,
+      },
+    });
+    const newKidInTownBadge = await db.badge.create({
+      data: {
+        type: "New Kid on the Block",
+        notes: "Generated when user created an account",
+        userId: user.id,
+      },
+    });
+    const badgeNotify = await db.notification.create({
+      data: {
+        message: "Your got your first badge!  Welcome NKOTB!!!",
+        buttonUrl: "/badges",
+        userId: user.id,
+      },
+    });
     res.json(user);
   } catch (e) {
     if (e instanceof knownDbError && e.code === "P2025") {
