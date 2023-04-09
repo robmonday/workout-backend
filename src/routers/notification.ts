@@ -1,9 +1,9 @@
 import app, { Request, Response } from "express";
 const notificationRouter = app.Router();
 
-import db, { knownDbError } from "../db";
+import db, { knownDbError } from "../modules/db";
 
-import { RequestPlus, tokenExtractor, protect } from "../middleware";
+import { RequestPlus, tokenExtractor, protect } from "../modules/middleware";
 
 notificationRouter.get("/open", async (req: RequestPlus, res: Response) => {
   const userId = req.user.id;

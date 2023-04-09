@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { tokenExtractor, protect } from "./middleware";
+import { tokenExtractor, protect } from "./modules/middleware";
 
 import userRouter from "./routers/user";
 import workoutRouter from "./routers/workout";

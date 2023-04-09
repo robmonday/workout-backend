@@ -1,8 +1,8 @@
 import app, { Request, Response } from "express";
 const userRouter = app.Router();
 
-import db, { knownDbError } from "../db";
-import { tokenExtractor, protect } from "../middleware";
+import db, { knownDbError } from "../modules/db";
+import { tokenExtractor, protect } from "../modules/middleware";
 
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 

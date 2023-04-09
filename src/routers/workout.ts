@@ -1,10 +1,10 @@
 import app, { Request, Response } from "express";
 const workoutRouter = app.Router();
 
-import { RequestPlus } from "../types";
+import { RequestPlus } from "../modules/types";
 
 import { Prisma } from "@prisma/client";
-import db, { knownDbError } from "../db";
+import db, { knownDbError } from "../modules/db";
 
 const asyncErrorHandler = (e: any, res: Response) => {
   console.error(e);

@@ -1,8 +1,8 @@
 import app, { Request, Response } from "express";
 const emailRouter = app.Router();
 
-import { RequestPlus } from "../types";
-import { emailConfirm } from "../emails";
+import { RequestPlus } from "../modules/types";
+import { emailConfirm } from "../modules/emails";
 
 emailRouter.post("/emailConfirm", async (req: RequestPlus, res: Response) => {
   try {

@@ -1,8 +1,8 @@
 import app, { Request, Response } from "express";
 const badgeRouter = app.Router();
 
-import { RequestPlus } from "../types";
-import db from "../db";
+import { RequestPlus } from "../modules/types";
+import db from "../modules/db";
 
 badgeRouter.get("/", async (req: RequestPlus, res: Response) => {
   const userId = req.user.id;
