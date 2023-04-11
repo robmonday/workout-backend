@@ -6,7 +6,7 @@ export type RequestPlus = Request & {
 };
 
 export enum MET {
-  SWIMMING = 8,
-  RUNNING = 14,
-  WALKING = 11,
+  SWIMMING = 5,
+  RUNNING = 7,
+  WALKING = 4,
 }

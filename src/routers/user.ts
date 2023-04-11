@@ -2,7 +2,7 @@ import app, { Request, Response } from "express";
 const userRouter = app.Router();
 
 import db, { knownDbError } from "../modules/db";
-import { tokenExtractor, protect } from "../modules/middleware";
+import { tokenExtractor, protect, RequestPlus } from "../modules/middleware";
 
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 
@@ -12,16 +12,10 @@ userRouter.get("/", protect, async (req, res) => {
   // res.status(401).json({ message: "nope" });
 });
 
-userRouter.get("/:id", protect, async (req: Request, res: Response) => {
+userRouter.get("/:id", protect, async (req: RequestPlus, res: Response) => {
   const id = req.params.id;
   const user = await db.user.findUniqueOrThrow({ where: { id } });
-  res.json({
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    emailConfirmed: user.emailConfirmed,
-  });
+  res.json(user);
 });
 
 // Do not protect this route.  Users who are signing up are not authenticated.
@@ -115,9 +109,17 @@ userRouter.post("/login", async (req: Request, res: Response) => {
   });
 });
 
-// userRouter.post("/emailconfirm", async (req: Request, res: Response) => {
-//   const { token } = req.query;
+userRouter.put("/", protect, async (req: RequestPlus, res: Response) => {
+  // console.log("req.body", JSON.stringify(req.body));
 
-// });
+  const updatedUserObj = await db.user.update({
+    data: { ...req.body, confirmEmail: undefined },
+    where: { id: req.user.id },
+  });
+  // console.log("updatedUserObj", updatedUserObj);
+
+  const response = { ...updatedUserObj, password: undefined };
+  res.json(response);
+});
 
 export default userRouter;
