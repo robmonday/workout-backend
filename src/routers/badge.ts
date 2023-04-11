@@ -5,8 +5,13 @@ import { RequestPlus } from "../modules/types";
 import db from "../modules/db";
 
 badgeRouter.get("/", async (req: RequestPlus, res: Response) => {
+  console.log(req.query);
   const userId = req.user.id;
-  if (!userId) {
+
+  if (req.query.gallery === "true") {
+    const badges = await db.badge.findMany({});
+    res.json(badges);
+  } else if (!userId) {
     res.json({
       message: "unable to get badges because unable to identify user",
     });
