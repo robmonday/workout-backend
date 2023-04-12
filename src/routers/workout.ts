@@ -32,7 +32,7 @@ workoutRouter.get("/", async (req: RequestPlus, res: Response) => {
       const workouts = await db.workout.findMany({
         where: { userId },
         include: {
-          workoutType: { select: { name: true } },
+          workoutType: { select: { name: true, id: true } },
         },
       });
 
@@ -81,9 +81,7 @@ workoutRouter.get("/averages", async (req: RequestPlus, res: Response) => {
 
 workoutRouter.get("/type", async (req: RequestPlus, res: Response) => {
   try {
-    const workouts = await db.workoutType.findMany({
-      select: { id: true, name: true },
-    });
+    const workouts = await db.workoutType.findMany({});
     res.json(workouts);
   } catch (e) {
     asyncErrorHandler(e, res);

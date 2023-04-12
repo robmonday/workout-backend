@@ -54,7 +54,7 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
     });
     const badgeNotify = await db.notification.create({
       data: {
-        message: "Your got your first badge!  Welcome NKOTB!!!",
+        message: "Your got your first badge!",
         buttonUrl: "/badges",
         userId: user.id,
       },
