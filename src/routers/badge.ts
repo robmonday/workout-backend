@@ -5,7 +5,7 @@ import { RequestPlus } from "../modules/types";
 import db from "../modules/db";
 
 badgeRouter.get("/", async (req: RequestPlus, res: Response) => {
-  console.log(req.query);
+  // console.log(req.query);
   const userId = req.user.id;
 
   if (req.query.gallery === "true") {

@@ -30,7 +30,7 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
         password: hashedPassword,
       },
     });
-    console.log("user created", user);
+    // console.log("user created", user);
     const emailConfirmNotify = await db.notification.create({
       data: {
         message: "Please take a moment to confirm your email address.",
