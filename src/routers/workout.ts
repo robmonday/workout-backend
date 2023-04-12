@@ -145,4 +145,15 @@ workoutRouter.delete("/", async (req: RequestPlus, res: Response) => {
   }
 });
 
+workoutRouter.delete("/seed", async (req: RequestPlus, res: Response) => {
+  try {
+    const workout = await db.workout.deleteMany({
+      where: { userId: req.body.id, seed: true },
+    });
+    res.json(workout);
+  } catch (e) {
+    asyncErrorHandler(e, res);
+  }
+});
+
 export default workoutRouter;

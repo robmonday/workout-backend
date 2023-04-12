@@ -69,6 +69,8 @@ model Workout {
   calories Int?     @default(0)
   notes    String?
 
+  seed Boolean @default(false)
+
   userId String
   user   User   @relation(fields: [userId], references: [id])
 

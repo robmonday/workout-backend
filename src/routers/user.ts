@@ -5,6 +5,7 @@ import db, { knownDbError } from "../modules/db";
 import { tokenExtractor, protect, RequestPlus } from "../modules/middleware";
 
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
+import { seedWorkouts } from "../modules/seedWorkouts";
 
 userRouter.get("/", protect, async (req, res) => {
   const users = await db.user.findMany({});
@@ -59,6 +60,7 @@ userRouter.post("/signup", async (req: Request, res: Response) => {
         userId: user.id,
       },
     });
+    seedWorkouts(user.id);
     res.json(user);
   } catch (e) {
     if (e instanceof knownDbError && e.code === "P2025") {

@@ -51,13 +51,13 @@ const badgeGallery = [
   },
   {
     id: "0574d16f-7d4d-4528-a2df-717aea76acc7",
-    type: "Early Bird",
+    type: "Early Bird Go Getter!",
     notes: "",
     userId: "gallery",
   },
   {
     id: "08e84b6d-b040-4367-8323-940be91ae5e0",
-    type: "Cross Trainier",
+    type: "Super Cross Trainier",
     notes: "",
     userId: "gallery",
   },
