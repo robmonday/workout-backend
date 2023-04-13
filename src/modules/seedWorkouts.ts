@@ -3,7 +3,7 @@ import db from "./db";
 export async function seedWorkouts(userId: string) {
   const notification = await db.notification.create({
     data: {
-      message: `For demo purposes, seed data was inserted into this account on ${Date()}.`,
+      message: `For demo purposes, seed data was added to this account on ${Date()}.`,
       dismissable: true,
       buttonUrl: "/deleteseed",
       userId,

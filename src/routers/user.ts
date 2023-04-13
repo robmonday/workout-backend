@@ -8,9 +8,14 @@ import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 import { seedWorkouts } from "../modules/seedWorkouts";
 
 userRouter.get("/", protect, async (req, res) => {
-  const users = await db.user.findMany({});
+  const limit = Number(req.query.limit);
+  let users;
+  if (isNaN(limit)) {
+    users = await db.user.findMany();
+  } else {
+    users = await db.user.findMany({ take: limit });
+  }
   res.status(200).json(users);
-  // res.status(401).json({ message: "nope" });
 });
 
 userRouter.get("/:id", protect, async (req: RequestPlus, res: Response) => {
