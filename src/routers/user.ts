@@ -11,9 +11,28 @@ userRouter.get("/", protect, async (req, res) => {
   const limit = Number(req.query.limit);
   let users;
   if (isNaN(limit)) {
-    users = await db.user.findMany();
+    users = await db.user.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        city: true,
+        state: true,
+      },
+    });
   } else {
-    users = await db.user.findMany({ take: limit });
+    users = await db.user.findMany({
+      take: limit,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        city: true,
+        state: true,
+      },
+    });
   }
   res.status(200).json(users);
 });
