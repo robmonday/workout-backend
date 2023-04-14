@@ -5,7 +5,7 @@ import db, { knownDbError } from "../modules/db";
 import { tokenExtractor, protect, RequestPlus } from "../modules/middleware";
 
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
-import { seedWorkouts } from "../modules/seedWorkouts";
+import { seedWorkouts } from "../modules/seedData";
 
 userRouter.get("/", protect, async (req, res) => {
   const limit = Number(req.query.limit);

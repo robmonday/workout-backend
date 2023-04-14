@@ -88,6 +88,8 @@ model User {
   DOB    DateTime?
   gender Gender?
 
+  seed Boolean @default(false)
+
   Workouts      Workout[]
   Badges        Badge[]
   Notifications Notification[]
