@@ -24,7 +24,8 @@ export const createJWT = (user: User) => {
       id: user.id,
       email: user.email,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
   );
   return token;
 };
