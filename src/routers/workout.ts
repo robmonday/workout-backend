@@ -79,6 +79,19 @@ workoutRouter.get("/averages", async (req: RequestPlus, res: Response) => {
   res.json(outputObj);
 });
 
+workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
+  const date = new Date();
+  const result = await db.workout.groupBy({
+    where: { start: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
+    by: ["userId"],
+    _sum: { steps: true, calories: true, distance: true },
+    orderBy: {
+      _sum: { steps: "desc" },
+    },
+  });
+  res.json(result);
+});
+
 workoutRouter.get("/type", async (req: RequestPlus, res: Response) => {
   try {
     const workouts = await db.workoutType.findMany({});
