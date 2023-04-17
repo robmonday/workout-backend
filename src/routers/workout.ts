@@ -80,16 +80,28 @@ workoutRouter.get("/averages", async (req: RequestPlus, res: Response) => {
 });
 
 workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
-  const date = new Date();
-  const result = await db.workout.groupBy({
+  const workouts1 = await db.workout.groupBy({
     where: { start: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
     by: ["userId"],
     _sum: { steps: true, calories: true, distance: true },
     orderBy: {
       _sum: { steps: "desc" },
     },
+    take: 5,
   });
-  res.json(result);
+  console.log("workouts1", workouts1);
+
+  const ids: string[] = [];
+  workouts1.map((w) => ids.push(w.userId));
+  const users = await db.user.findMany({ where: { id: { in: ids } } });
+  // console.log(users);
+
+  const workouts2 = workouts1.map((r) => {
+    const user = users.find((u) => u.id === r.userId);
+    return { ...r, userId: undefined, ...user };
+  });
+
+  res.json(workouts2);
 });
 
 workoutRouter.get("/type", async (req: RequestPlus, res: Response) => {
