@@ -80,6 +80,7 @@ workoutRouter.get("/averages", async (req: RequestPlus, res: Response) => {
 });
 
 workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
+  
   const workouts1 = await db.workout.groupBy({
     where: { start: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
     by: ["userId"],
@@ -87,7 +88,6 @@ workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
     orderBy: {
       _sum: { steps: "desc" },
     },
-    take: 5,
   });
   console.log("workouts1", workouts1);
 
@@ -96,9 +96,24 @@ workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
   const users = await db.user.findMany({ where: { id: { in: ids } } });
   // console.log(users);
 
-  const workouts2 = workouts1.map((r) => {
-    const user = users.find((u) => u.id === r.userId);
-    return { ...r, userId: undefined, ...user };
+  const workouts2 = workouts1.map((w) => {
+    const user = users.find((u) => u.id === w.userId);
+    if (user) {
+      return {
+        _sum: {
+          steps: w._sum.steps,
+          calories: w._sum.calories,
+          distance: w._sum.distance,
+        },
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        city: user.city,
+        state: user.state,
+        email: user.email,
+      };
+    }
+    // return { ...w, userId: undefined, ...user };
   });
 
   res.json(workouts2);
