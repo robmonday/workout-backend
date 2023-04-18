@@ -43,6 +43,32 @@ workoutRouter.get("/", async (req: RequestPlus, res: Response) => {
   }
 });
 
+workoutRouter.get("/feed", async (req: RequestPlus, res: Response) => {
+  try {
+    const workouts = await db.workout.findMany({
+      // where: { userId: { not: req.user.id } }, // don't include user's own activity
+      include: {
+        reactions: true,
+        workoutType: { select: { name: true, id: true } },
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            city: true,
+            state: true,
+          },
+        },
+      },
+      take: 50,
+    });
+
+    res.json(workouts);
+  } catch (e) {
+    asyncErrorHandler(e, res);
+  }
+});
+
 workoutRouter.get("/timeseries", async (req: RequestPlus, res: Response) => {
   try {
     const result1 = await db.$queryRaw(
@@ -80,7 +106,6 @@ workoutRouter.get("/averages", async (req: RequestPlus, res: Response) => {
 });
 
 workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
-  
   const workouts1 = await db.workout.groupBy({
     where: { start: { gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } },
     by: ["userId"],
@@ -89,7 +114,7 @@ workoutRouter.get("/leaderboard", async (req: RequestPlus, res: Response) => {
       _sum: { steps: "desc" },
     },
   });
-  console.log("workouts1", workouts1);
+  // console.log("workouts1", workouts1);
 
   const ids: string[] = [];
   workouts1.map((w) => ids.push(w.userId));

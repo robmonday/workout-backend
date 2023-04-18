@@ -90,9 +90,10 @@ model User {
 
   seed Boolean @default(false)
 
-  Workouts      Workout[]
-  Badges        Badge[]
-  Notifications Notification[]
+  workouts      Workout[]
+  badges        Badge[]
+  notifications Notification[]
+  reactions     Reaction[]
 }
 
 model Notification {
@@ -105,14 +106,14 @@ model Notification {
   buttonUrl   String?
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  users  User   @relation(fields: [userId], references: [id])
 }
 
 model WorkoutType {
   id        String    @id @default(uuid())
   name      String
   sortOrder Int       @default(100)
-  Workouts  Workout[]
+  workouts  Workout[]
 }
 
 model Workout {
@@ -135,6 +136,7 @@ model Workout {
 
   workoutTypeId String
   workoutType   WorkoutType @relation(fields: [workoutTypeId], references: [id])
+  reactions     Reaction[]
 }
 
 model Badge {
@@ -147,4 +149,22 @@ model Badge {
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model Reaction {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  emojiSymbol String
+
+  seed Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  workoutId String
+  workout   Workout @relation(fields: [workoutId], references: [id])
+
+  @@unique([workoutId, userId])
 }
