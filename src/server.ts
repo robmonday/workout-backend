@@ -9,6 +9,7 @@ import workoutRouter from "./routers/workout";
 import badgeRouter from "./routers/badge";
 import notificationRouter from "./routers/notification";
 import emailRouter from "./routers/email";
+import reactionRouter from "./routers/reaction";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get("/hello", (req: Request, res: Response) => {
 app.use("/api/user", userRouter); // protect is applied at router level
 
 app.use("/api/workout", protect, workoutRouter);
+app.use("/api/reaction", protect, reactionRouter);
 app.use("/api/badge", protect, badgeRouter);
 app.use("/api/notification", protect, notificationRouter);
 app.use("/api/email", protect, emailRouter);
