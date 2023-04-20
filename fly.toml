@@ -1,9 +1,15 @@
-# fly.toml file generated for workout-backend on 2023-04-11T23:57:26-04:00
+# fly.toml app configuration file generated for workout-backend on 2023-04-20T16:34:29-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = "workout-backend"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "atl"
 processes = []
+
+[build]
 
 [env]
   PORT = "8080"
