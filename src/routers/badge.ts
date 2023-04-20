@@ -10,7 +10,7 @@ badgeRouter.get("/", async (req: RequestPlus, res: Response) => {
 
   if (req.query.gallery === "true") {
     const badges = await db.badge.findMany({});
-    console.log(badges);
+    // console.log(badges);
     res.json(badgeGallery);
   } else if (!userId) {
     res.json({

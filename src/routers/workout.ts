@@ -46,9 +46,21 @@ workoutRouter.get("/", async (req: RequestPlus, res: Response) => {
 workoutRouter.get("/feed", async (req: RequestPlus, res: Response) => {
   try {
     const workouts = await db.workout.findMany({
-      // where: { userId: { not: req.user.id } }, // don't include user's own activity
+      orderBy: [{ start: "desc" }],
       include: {
-        reactions: true,
+        reactions: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                city: true,
+                state: true,
+              },
+            },
+          },
+        },
         workoutType: { select: { name: true, id: true } },
         user: {
           select: {
