@@ -25,13 +25,13 @@ async function main() {
       firstName: "Rob A",
       lastName: "Monday",
       password: "$2b$05$Vbs7Ctwa9xzFfo36MGxsTuPhjy7XgCHwBZ//yf5tv1GsbbWOE7CrO",
-      Badges: {
+      badges: {
         create: {
           type: "Dev Mastermind",
           notes: "Created when database was seeded",
         },
       },
-      Notifications: {
+      notifications: {
         create: {
           message: `Database was seeded on ${Date()}.`,
           buttonUrl: "/deleteseed",
