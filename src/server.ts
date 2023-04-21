@@ -18,6 +18,8 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // puts query strings into an object
 
+app.use(express.static("assets"));
+
 // app.get("/", (req, res, next) => {
 //   setTimeout(() => {
 //     next(new Error("here is an async error"));
