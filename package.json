@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "nodemon src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js"
+    "start": "node dist/src/index.js"
   },
   "author": "Rob M",
   "license": "ISC",
