@@ -4,6 +4,7 @@ async function main() {
   console.log("deleting all info from database...");
   await db.badge.deleteMany({});
   await db.notification.deleteMany({});
+  await db.reaction.deleteMany({});
   await db.workout.deleteMany({});
 
   await db.workoutType.deleteMany({});
