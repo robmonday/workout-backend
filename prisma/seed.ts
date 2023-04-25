@@ -332,13 +332,35 @@ async function main() {
     const reactionsToCreate = possibleCombos.slice(0, numReactionsToCreate);
     console.log("possibleCombos array head:", reactionsToCreate.slice(0, 10));
     const reactionsCreatedSummary = await db.reaction.createMany({
-      data: reactionsToCreate, //.slice(0, 399),
+      data: reactionsToCreate,
     });
     console.log("reactionsCreatedSummary", reactionsCreatedSummary);
   }
   createReactions(workoutIds, userIds, emojis);
 
-  // async function createBadges() {}
+  async function createBadges() {
+    const badgesCreatedSummary = await db.badge.createMany({
+      data: [
+        {
+          type: "Fastest Mile Run in Town",
+          notes: "Created when database was originally seeded",
+          userId: userIds[1],
+        },
+        {
+          type: "Super Cross Trainer",
+          notes: "Created when database was originally seeded",
+          userId: userIds[2],
+        },
+        {
+          type: "Fastest Mile Run in Town",
+          notes: "Created when database was originally seeded",
+          userId: userIds[3],
+        },
+      ],
+    });
+    console.log("badgesCreatedSummary", badgesCreatedSummary);
+  }
+  createBadges();
 }
 main()
   .then(async () => {
