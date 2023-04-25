@@ -166,5 +166,5 @@ model Reaction {
   workoutId String
   workout   Workout @relation(fields: [workoutId], references: [id])
 
-  @@unique([workoutId, userId])
+  // @@unique([workoutId, userId])
 }
