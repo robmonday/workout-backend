@@ -1,0 +1,8 @@
+POST https://workout-backend.fly.dev/api/reaction
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzNDM1ZjUzLWEyMmUtNDFiMC1iZmE3LWE2ZDIxYmFjODRmNyIsImVtYWlsIjoicm9iLm1vbmRheUBvdXRsb29rLmNvbSIsImlhdCI6MTY4MDg5MDk2MH0.3xOzX8Fmd1SXQz8XimV-qrvRq-rECPCD_6stblxQxsw
+
+{
+  "emojiSymbol": "👍",
+  "workoutId": "0974e634-f310-4277-961d-bd1947d7c24c"
+}

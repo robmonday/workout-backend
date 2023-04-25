@@ -1,0 +1,21 @@
+POST http://localhost:5174/api/user/signup
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@gmail.com",
+  "password": "Password000?"
+}
+
+###
+POST http://localhost:5174/api/user/signup
+Content-Type: application/json
+
+{
+  "firstName": "Rob",
+  "lastName": "Monday",
+  "email": "rob@gmail.com",
+  "password": "Zzz123!"
+}
+
