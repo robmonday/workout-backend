@@ -259,7 +259,7 @@ async function main() {
     const updatedObject = {
       ...i,
       email: `email${Math.floor(Math.random() * 100000)}@yahoo.com`,
-      password: "Abc123!",
+      password: "Password@123",
       seed: true,
     };
     userSeed.push(updatedObject);
