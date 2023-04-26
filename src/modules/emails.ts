@@ -12,7 +12,11 @@ let transporter = nodemailer.createTransport({
 
 let from = process.env.EMAIL_FROM_ADDR;
 
-export async function emailConfirm(to: string, data: any) {
+export async function emailConfirm(
+  to: string,
+  data: any,
+  emailConfirmToken: string
+) {
   const subject = `Welcome to the Workout App, ${data.firstName}!`;
 
   const html = `
@@ -21,12 +25,14 @@ export async function emailConfirm(to: string, data: any) {
   <p>Congratulations on taking your first step toward better fitness!  You are on a journey, and the Workout App is here to help you along the way.</p>
 
   <p>Please take a moment to confirm your email: </p>
-  <a href="http://localhost:5173/user/emailconfirm/?token=${data.token}">Confirm Email as ${data.email}</a>
+  <a href="http://localhost:5173/emailconfirm/?emailConfirmToken=${
+    emailConfirmToken || "NO_TOKEN"
+  }">Confirm Email as ${data.email}</a>
   `;
 
   try {
     let info = await transporter.sendMail({ from, to, subject, html });
-    const successMessage = `Message sent: ${info.messageId}`
+    const successMessage = `Message sent: ${info.messageId}`;
     console.log(successMessage);
     return successMessage;
   } catch (e) {

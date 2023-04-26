@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "@prisma/client";
+import { UserInfo } from "./types";
 
 //helper function
 // comparing plain text password submitted to hash stored in DB
@@ -28,4 +29,15 @@ export const createJWT = (user: User) => {
     { expiresIn: "7d" }
   );
   return token;
+};
+
+export const createEmailConfirmToken = (userInfo: UserInfo) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("Unable to create token.");
+  }
+
+  const emailConfirmToken = jwt.sign(userInfo, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+  return emailConfirmToken;
 };
