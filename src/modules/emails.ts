@@ -12,6 +12,8 @@ let transporter = nodemailer.createTransport({
 
 let from = process.env.EMAIL_FROM_ADDR;
 
+const baseUrl = "https://workout-backend.fly.dev";
+
 export async function emailConfirm(
   to: string,
   data: any,
@@ -25,7 +27,7 @@ export async function emailConfirm(
   <p>Congratulations on taking your first step toward better fitness!  You are on a journey, and the Workout App is here to help you along the way.</p>
 
   <p>Please take a moment to confirm your email: </p>
-  <a href="http://localhost:5173/emailconfirm/?emailConfirmToken=${
+  <a href="${baseUrl}/emailconfirm/?emailConfirmToken=${
     emailConfirmToken || "NO_TOKEN"
   }">Confirm Email as ${data.email}</a>
   `;
