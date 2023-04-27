@@ -12,7 +12,7 @@ let transporter = nodemailer.createTransport({
 
 let from = process.env.EMAIL_FROM_ADDR;
 
-const baseUrl = "https://workout-backend.fly.dev";
+const baseUrl = "https://robmonday-workout.vercel.app";
 
 export async function emailConfirm(
   to: string,
