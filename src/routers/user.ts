@@ -148,4 +148,19 @@ userRouter.put("/", protect, async (req: RequestPlus, res: Response) => {
   res.json(response);
 });
 
+// Do not protect this route.  Users who are resetting their password are not authenticated.
+userRouter.put("/updatepassword", async (req: RequestPlus, res: Response) => {
+  const email = req.body.email;
+  const password = await hashPassword(req.body.password);
+
+  const updatedUser = await db.user.update({
+    where: { email },
+    data: { password },
+  });
+  // console.log("new password", req.body.password);
+  // console.log("updatedUser", updatedUser);
+
+  res.json({ success: true });
+});
+
 export default userRouter;

@@ -12,7 +12,7 @@ let transporter = nodemailer.createTransport({
 
 let from = process.env.EMAIL_FROM_ADDR;
 
-const baseUrl = "https://robmonday-workout.vercel.app";
+const baseUrl = "http://localhost:5173"; // "https://robmonday-workout.vercel.app" "http://localhost:5173"
 
 export async function emailConfirm(
   to: string,
@@ -30,6 +30,29 @@ export async function emailConfirm(
   <a href="${baseUrl}/emailconfirm/?emailConfirmToken=${
     emailConfirmToken || "NO_TOKEN"
   }">Confirm Email as ${data.email}</a>
+  `;
+
+  try {
+    let info = await transporter.sendMail({ from, to, subject, html });
+    const successMessage = `Message sent: ${info.messageId}`;
+    console.log(successMessage);
+    return successMessage;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function emailForgotPw(to: string, token: string) {
+  const subject = `Workout App Password Reset`;
+
+  const html = `
+  <h1>Password Reset</h1>
+
+  <p>We received an online request to reset your password.  If this was initiated by you, you may now complete this action.  If you did not request a password reset, you may disregard this email.</p>
+
+  <p><a href="${baseUrl}/forgot/?newPasswordToken=${
+    token || "NO_TOKEN"
+  }">Update Password for ${to}</a></p>
   `;
 
   try {

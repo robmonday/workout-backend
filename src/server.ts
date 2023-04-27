@@ -34,12 +34,12 @@ app.get("/hello", (req: Request, res: Response) => {
 });
 
 app.use("/api/user", userRouter); // protect is applied at router level
+app.use("/api/email", emailRouter); // protect is applied at router level
 
 app.use("/api/workout", protect, workoutRouter);
 app.use("/api/reaction", protect, reactionRouter);
 app.use("/api/badge", protect, badgeRouter);
 app.use("/api/notification", protect, notificationRouter);
-app.use("/api/email", protect, emailRouter);
 
 // this is only for sync errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

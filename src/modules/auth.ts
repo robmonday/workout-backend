@@ -31,7 +31,7 @@ export const createJWT = (user: User) => {
   return token;
 };
 
-export const createEmailConfirmToken = (userInfo: UserInfo) => {
+export const createEmailToken = (userInfo: UserInfo | string) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("Unable to create token.");
   }
