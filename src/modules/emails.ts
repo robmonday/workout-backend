@@ -12,7 +12,7 @@ let transporter = nodemailer.createTransport({
 
 let from = process.env.EMAIL_FROM_ADDR;
 
-const baseUrl = "http://localhost:5173"; // "https://robmonday-workout.vercel.app" "http://localhost:5173"
+const baseUrl = "https://robmonday-workout.vercel.app"; // "https://robmonday-workout.vercel.app" "http://localhost:5173"
 
 export async function emailConfirm(
   to: string,
